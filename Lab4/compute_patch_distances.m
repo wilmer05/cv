@@ -11,8 +11,16 @@ function distances = compute_patch_distances(patch_list, patch, mask, weights)
 %   distances - array of size N, containing all patch distances
 
     % TODO: implement
-    for i=1:size(patch_list,1)
-        
+    distances = zeros(size(patch_list,1),1);
+    for idx=1:size(patch_list,1)
+        for y=1:size(patch,1)
+            for x=1:size(patch,2)
+                if mask(y,x) == 1
+%                     patch2 = 
+%                     distances(idx) = distances(idx) + weights(y,x) * (patch(y,x)-)
+                end
+            end
+        end
     end
 end
 
