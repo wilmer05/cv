@@ -31,7 +31,7 @@ function [patch_list, coordinates] = extract_patches(image, patch_size)
                     for i=x_start:x_start+patch_size(2)-1
                         cnt2 = 1;
                         for j =y_start:y_start+patch_size(1)-1
-                            patch_list(cnt, cnt2, col, idx) = image(j,i,col);
+                            patch_list(cnt2, cnt, col, idx) = image(j,i,col);
                             cnt2 = cnt2 + 1;
                         end
                         cnt =  cnt + 1;
