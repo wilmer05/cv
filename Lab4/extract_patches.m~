@@ -23,21 +23,18 @@ function [patch_list, coordinates] = extract_patches(image, patch_size)
                 x_coordinate = x_start + floor(patch_size(2)/2);
                 y_coordinate = y_start + floor(patch_size(1)/2);
                 colours = size(image, 3);
-                %patch_list(idx,:) = [patch_size(1), patch_size(2), colours, idx];
+                patch_list(idx,:) = [patch_size(1), patch_size(2), colours, idx];
                 coordinates(idx,:) = [y_coordinate, x_coordinate];
+                idx = idx + 1;
                 %imagePatch = image;
-                cnt = 1;
-                for col=1 : colours
-                    for i=x_start:x_start+patch_size(2)-1
-                        cnt2 = 1;
-                        for j =y_start:y_start+patch_size(1)-1
-                            patch_list(cnt, cnt2, col, idx) = image(j,i,col);
-                            cnt2 = cnt2 + 1;
-                        end
-                        cnt =  cnt + 1;
+                cnt1 = 0;
+                for i=x_start:x_start+patch_size-1
+                    for j =y_start:y_start+patch_size-1
+                        patch_list(
                     end
                 end
-                idx = idx + 1;
+%                 imagePatch(y_coordinate, x_coordinate, :) = [0 204 102];
+%                 imshow(imagePatch);
             end
         end
     else
