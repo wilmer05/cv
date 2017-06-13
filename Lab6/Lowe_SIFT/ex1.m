@@ -13,7 +13,6 @@ function [] = ex1(K)
         fname                                               = strcat(dataFolder, imageFiles(i).name);
         [image, descriptors, locs]                          = sift(fname);
         G( ndesc: ndesc + size(descriptors, 1) - 1, :)      = descriptors;
-        L( ndesc: ndesc + size(descriptors, 1) - 1, :)      = locs;
         labels(ndesc: ndesc + size(descriptors, 1) - 1, :)  = i * ones(size(descriptors, 1), 1);
         ndesc                                               = ndesc + size(descriptors, 1);
 
@@ -27,18 +26,17 @@ function [] = ex1(K)
    
     for i=1: size(G,1)
         
-%        imagesWordsCnt(labels(i))           = imagesWordsCnt(labels(i))     + 1;
         imagesCent(labels(i), idx(i))       = imagesCent(labels(i), idx(i)) + 1;
         centroidWordsCnt(idx(i), labels(i)) = 1;
         
     end
     
     disp('Computing Vs');
-    Vs = computeVs(nimages, K, imagesWordsCnt, imagesCent, centroidWordsCnt);
+    Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt);
     disp('.');
 end
 
-function Vs = computeVs(nimages, K, imagesWordsCnt, imagesCent, centroidWordscnt)
+function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt)
     Vs = zeros(nimages, K);
     for i=1 : nimages
         for j=1:K
