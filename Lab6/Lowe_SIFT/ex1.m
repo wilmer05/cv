@@ -1,6 +1,6 @@
-function [] = ex1()
+function [Vs, C, centroidWordsCnt] = ex1(K)
+    max = 2;
     K = 400;
-    max =1;
     dataFolder  = '../data/';
     imageFiles  = dir(strcat(dataFolder, '*.p*'));
     nimages     = length(imageFiles);
@@ -21,7 +21,6 @@ function [] = ex1()
     [ idx, C ]          = kmeans(G, K);
     
     imagesCent          = zeros(nimages, K);
-    imagesWordsCnt      = zeros(nimages,1);
     centroidWordsCnt    = zeros(K,nimages);
    
     for i=1: size(G,1)
