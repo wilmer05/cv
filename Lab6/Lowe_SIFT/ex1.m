@@ -1,6 +1,5 @@
 function [Vs, C, centroidWordsCnt] = ex1(K)
     max = 2;
-    K = 400;
     dataFolder  = '../data/';
     imageFiles  = dir(strcat(dataFolder, '*.p*'));
     nimages     = length(imageFiles);
@@ -64,6 +63,7 @@ function printMaxClusters(Vs, max, imageFiles)
     for k=1:totalCluster
         images = find(Vs(:,clusters(k))>0);
         count = totalImg*(k-1)+1;
+        title(sprintf('Cluster %d', clusters(k)));
         for i=1:size(images)
             img = imread(fullfile( '../data/',imageFiles(images(i)).name));
             subplot(totalCluster,totalImg,count), subimage(img);
