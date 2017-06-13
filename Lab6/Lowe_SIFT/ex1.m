@@ -19,34 +19,36 @@ function [] = ex1(K)
 
     end
     
-    [ idx, C ]          = kmeans(G, K);
+    [ idx, C, sumd, D]          = kmeans(G, K);
     
     imagesCent          = zeros(nimages, K);
-    imagesWordsCnt      = zeros(nimages,1);
     centroidWordsCnt    = zeros(K,nimages);
    
     for i=1: size(G,1)
         
 %        imagesWordsCnt(labels(i))           = imagesWordsCnt(labels(i))     + 1;
         imagesCent(labels(i), idx(i))       = imagesCent(labels(i), idx(i)) + 1;
-        centroidWordsCnt(idx(i), labels(i)) = 1;
+        A = find(D(i,:) == 0.0, 1);
+        if size(A,2) > 0
+            centroidWordsCnt(A, label(i)) = 1;
+        end
         
     end
     
     disp('Computing Vs');
-    Vs = computeVs(nimages, K, imagesWordsCnt, imagesCent, centroidWordsCnt);
+    Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt, D);
     disp('.');
 end
 
-function Vs = computeVs(nimages, K, imagesWordsCnt, imagesCent, centroidWordscnt)
+function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt, D)
     Vs = zeros(nimages, K);
     for i=1 : nimages
+        mn      = sum(imagesCent(i, :));
         for j=1:K
             mjn     = imagesCent(i, j);
-            mn      = sum(imagesCent(i, :));
             N       = nimages;
-            Nj      = sum(centroidWordscnt(j,:));
-            Vs(i,j) = (mjn / mn) * log(N/Nj);
+            Nj      = max(sum(centroidWordscnt(j,:)),1);
+            Vs(i,j) = ( mjn / mn ) * log( N / Nj );
         end
     end
 end
