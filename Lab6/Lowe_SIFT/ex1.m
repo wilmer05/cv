@@ -37,7 +37,6 @@ function [] = ex1(K)
     
     disp('Computing Vs');
     Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt, D);
-    disp('.');
 end
 
 function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt, D)
