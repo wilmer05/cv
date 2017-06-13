@@ -1,4 +1,4 @@
-function [] = ex1(K)
+function [Vs, C, centroidWordsCnt] = ex1(K)
     dataFolder  = '../data/';
     imageFiles  = dir(strcat(dataFolder, '*.p*'));
     nimages     = length(imageFiles);
@@ -21,7 +21,6 @@ function [] = ex1(K)
     [ idx, C ]          = kmeans(G, K);
     
     imagesCent          = zeros(nimages, K);
-    imagesWordsCnt      = zeros(nimages,1);
     centroidWordsCnt    = zeros(K,nimages);
    
     for i=1: size(G,1)
@@ -33,7 +32,6 @@ function [] = ex1(K)
     
     disp('Computing Vs');
     Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt);
-    disp('.');
 end
 
 function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt)
