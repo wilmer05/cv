@@ -1,0 +1,15 @@
+dataFolder = '../data/';
+imageFiles = dir(strcat(dataFolder, '*.p*'));
+nimages = length(imageFiles);
+ndesc = 1;
+G = zeros(nimages, 128);
+for i=1:nimages
+
+    fname = strcat(dataFolder, imageFiles(i).name);
+    [image, descriptors, locs] = sift(fname);
+    imageFiles(i).descriptor = descriptors;
+    G( ndesc: ndesc + size(descriptors, 1));
+    ndesc = ndesc + size(descriptorsm)
+    imageFiles(i).locs = locs;
+    
+end
