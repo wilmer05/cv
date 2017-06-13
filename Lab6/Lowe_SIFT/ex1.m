@@ -1,11 +1,9 @@
-function [] = ex1
+function [] = ex1(K)
     dataFolder  = '../data/';
     imageFiles  = dir(strcat(dataFolder, '*.p*'));
     nimages     = length(imageFiles);
     ndesc       = 1;
-    
-    %number of words
-    K = 10;
+
     
     G       = zeros(nimages, 128);
     L       = zeros(nimages, 4);
@@ -29,7 +27,7 @@ function [] = ex1
    
     for i=1: size(G,1)
         
-        imagesWordsCnt(labels(i))           = imagesWordsCnt(labels(i))     + 1;
+%        imagesWordsCnt(labels(i))           = imagesWordsCnt(labels(i))     + 1;
         imagesCent(labels(i), idx(i))       = imagesCent(labels(i), idx(i)) + 1;
         centroidWordsCnt(idx(i), labels(i)) = 1;
         
@@ -43,9 +41,9 @@ end
 function Vs = computeVs(nimages, K, imagesWordsCnt, imagesCent, centroidWordscnt)
     Vs = zeros(nimages, K);
     for i=1 : nimages
-        for j=i:K
+        for j=1:K
             mjn     = imagesCent(i, j);
-            mn      = imagesWordsCnt(i);
+            mn      = sum(imagesCent(i, :));
             N       = nimages;
             Nj      = sum(centroidWordscnt(j,:));
             Vs(i,j) = (mjn / mn) * log(N/Nj);
