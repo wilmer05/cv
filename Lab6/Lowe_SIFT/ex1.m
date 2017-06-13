@@ -19,15 +19,13 @@ function [] = ex1(K)
 
     end
     
-    [ idx, C, sumd, D]          = kmeans(G, K);
+    [ idx, C, sumd, D]  = kmeans(G, K);
     
     imagesCent          = zeros(nimages, K);
     centroidWordsCnt    = zeros(K,nimages);
    
     for i=1: size(G,1)
-        
-%        imagesWordsCnt(labels(i))           = imagesWordsCnt(labels(i))     + 1;
-        imagesCent(labels(i), idx(i))       = imagesCent(labels(i), idx(i)) + 1;
+        imagesCent(labels(i), idx(i)) = imagesCent(labels(i), idx(i)) + 1;
         A = find(D(i,:) == 0.0, 1);
         if size(A,2) > 0
             centroidWordsCnt(A, label(i)) = 1;
@@ -36,10 +34,10 @@ function [] = ex1(K)
     end
     
     disp('Computing Vs');
-    Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt, D);
+    Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt);
 end
 
-function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt, D)
+function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt)
     Vs = zeros(nimages, K);
     for i=1 : nimages
         mn      = sum(imagesCent(i, :));
