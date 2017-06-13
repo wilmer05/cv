@@ -1,6 +1,6 @@
-files = { 'bricks', 'cells' ,'D3', 'D1', 'chess'};
-patches = [9];
-tolerances = [0.2];
+files = { 'blobs', 'cells', 'bricks', 'D1' ,'D3'};
+patches = [15];
+tolerances = [0.05, 0.2];
 last = size(files, 2);
 for i=1:last
    
