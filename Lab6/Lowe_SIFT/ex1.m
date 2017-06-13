@@ -1,4 +1,6 @@
-function [] = ex1(K)
+function [] = ex1()
+    K = 400;
+    max =1;
     dataFolder  = '../data/';
     imageFiles  = dir(strcat(dataFolder, '*.p*'));
     nimages     = length(imageFiles);
@@ -9,13 +11,11 @@ function [] = ex1(K)
     L       = zeros(nimages, 4);
     labels  = zeros(nimages, 1);
     for i=1:nimages
-
-        fname                                               = strcat(dataFolder, imageFiles(i).name);
-        [image, descriptors, locs]                          = sift(fname);
-        G( ndesc: ndesc + size(descriptors, 1) - 1, :)      = descriptors;
-        labels(ndesc: ndesc + size(descriptors, 1) - 1, :)  = i * ones(size(descriptors, 1), 1);
-        ndesc                                               = ndesc + size(descriptors, 1);
-
+        fname = strcat(dataFolder, imageFiles(i).name);
+        [image, descriptors, locs] = sift(fname);
+        G( ndesc: ndesc + size(descriptors, 1) - 1, :) = descriptors;
+        labels(ndesc: ndesc + size(descriptors, 1) - 1, :) = i * ones(size(descriptors, 1), 1);
+        ndesc = ndesc + size(descriptors, 1);
     end
     
     [ idx, C ]          = kmeans(G, K);
@@ -33,6 +33,7 @@ function [] = ex1(K)
     
     disp('Computing Vs');
     Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt);
+    printMaxClusters(Vs, max, imageFiles);
     disp('.');
 end
 
@@ -45,6 +46,29 @@ function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt)
             N       = nimages;
             Nj      = sum(centroidWordscnt(j,:));
             Vs(i,j) = (mjn / mn) * log(N/Nj);
+        end
+    end
+end
+
+function printMaxClusters(Vs, max, imageFiles)
+    clusters = zeros(size(Vs,1)*max, 1);
+    for i=1:size(Vs,1)
+        [sorted, sortedIdx] = sort(Vs(i,:),'descend');
+        startIdx = (i-1)*max+1;
+        endIdx = i*max;
+        clusters(startIdx:endIdx,1) = sortedIdx(1:max)';
+    end
+    
+    totalCluster = size(clusters,1);
+    totalImg = size(Vs,1);
+    count=1;
+    for k=1:totalCluster
+        images = find(Vs(:,clusters(k))>0);
+        count = totalImg*(k-1)+1;
+        for i=1:size(images)
+            img = imread(fullfile( '../data/',imageFiles(images(i)).name));
+            subplot(totalCluster,totalImg,count), subimage(img);
+            count = count +1;
         end
     end
 end
