@@ -1,10 +1,10 @@
-function simil = similarity(img, numberOfClusters)
+function [simil, fnames] = similarity(img, numberOfClusters)
 
     imwrite(img, 'tmp.ppm');
 
     [image, descriptors, locs] = sift('tmp.ppm');
     
-    [databaseVs, C, cnt] = ex1(numberOfClusters);
+    [databaseVs, fnames, C, cnt] = ex1(numberOfClusters);
     
     clusters = zeros(size(descriptors, 1), 1);
     for i=1:size(descriptors, 1)
@@ -37,5 +37,6 @@ function simil = similarity(img, numberOfClusters)
         
         simil(i) = dot(vd, vq) / (norm(vq) * norm(vd));
     end
-    
+    idx = find(max(simil) == simil);
+    fprintf("Best score similarity %.4f from image: %s", simil(idx), fnames{idx});
 end

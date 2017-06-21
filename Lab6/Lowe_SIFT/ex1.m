@@ -1,4 +1,4 @@
-function [Vs, C, centroidWordsCnt] = ex1(K)
+function [Vs, fnames, C, centroidWordsCnt] = ex1(K)
     max = 2;
     dataFolder  = '../data/';
     imageFiles  = dir(strcat(dataFolder, '*.p*'));
@@ -9,8 +9,10 @@ function [Vs, C, centroidWordsCnt] = ex1(K)
     G       = zeros(nimages, 128);
     L       = zeros(nimages, 4);
     labels  = zeros(nimages, 1);
+    fnames  = cell(nimages, 1);
     for i=1:nimages
         fname = strcat(dataFolder, imageFiles(i).name);
+        fnames{i} = imageFiles(i).name;
         [image, descriptors, locs] = sift(fname);
         G( ndesc: ndesc + size(descriptors, 1) - 1, :) = descriptors;
         labels(ndesc: ndesc + size(descriptors, 1) - 1, :) = i * ones(size(descriptors, 1), 1);
