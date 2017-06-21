@@ -33,8 +33,8 @@ function [Vs, fnames, C, centroidWordsCnt] = ex1(K)
     
     disp('Computing Vs');
     Vs = computeVs(nimages, K, imagesCent, centroidWordsCnt);
-    printMaxClusters(Vs, max, imageFiles);
-    disp('.');
+    %printMaxClusters(Vs, max, imageFiles);
+    %disp('.');
 end
 
 function Vs = computeVs(nimages, K, imagesCent, centroidWordscnt)
